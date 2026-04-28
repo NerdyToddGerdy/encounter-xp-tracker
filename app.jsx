@@ -1,4 +1,4 @@
-const { useState } = React;
+const { useState, useEffect } = React;
 const { Plus, Trash2, X, Copy, Check } = lucide;
 
 const MONSTER_XP = {
@@ -43,6 +43,8 @@ function XPTracker() {
   const [newEncounterName, setNewEncounterName] = useState('');
   const [numPCs, setNumPCs] = useState(4);
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => { lucide.createIcons(); });
 
   const getEncounterMultiplier = (monsterCount) => {
     if (monsterCount === 0) return 1;
@@ -353,9 +355,5 @@ function XPTracker() {
   );
 }
 
-// Initialize Lucide icons after render
-setTimeout(() => {
-  lucide.createIcons();
-}, 100);
 
 ReactDOM.render(<XPTracker />, document.getElementById('root'));
