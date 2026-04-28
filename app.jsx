@@ -395,7 +395,14 @@ function XPTracker() {
           </div>
         )}
 
-        <div className="text-center mt-6 pb-2">
+        <div className="flex justify-center items-center gap-3 mt-6 pb-2">
+          <a
+            href="https://nerdytoddgerdy.github.io/nerdy-gerdy-games/"
+            className="text-slate-600 hover:text-slate-400 text-xs transition-colors"
+          >
+            More Tools
+          </a>
+          <span className="text-slate-700 text-xs">·</span>
           <button
             onClick={() => setShowChangelog(true)}
             className="text-slate-600 hover:text-slate-400 text-xs transition-colors"
