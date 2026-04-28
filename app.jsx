@@ -1,6 +1,35 @@
 const { useState, useEffect } = React;
 const { Plus, Trash2, X, Copy, Check } = lucide;
 
+const VERSION = 'v1.2.0';
+
+const CHANGELOG = [
+  {
+    version: 'v1.2.0',
+    date: '2026-04-27',
+    changes: [
+      'Added version number and changelog modal',
+    ],
+  },
+  {
+    version: 'v1.1.0',
+    date: '2026-04-27',
+    changes: [
+      'Added Session field — included in copied output when filled in',
+      'Added delete buttons for encounters and entries',
+    ],
+  },
+  {
+    version: 'v1.0.0',
+    date: '2026-04-27',
+    changes: [
+      'Initial release',
+      'Track XP across multiple encounters with D&D 5e encounter multipliers',
+      'Copy full session summary to clipboard',
+    ],
+  },
+];
+
 const MONSTER_XP = {
   'CR 0': 10,
   'CR 1/8': 25,
@@ -44,6 +73,7 @@ function XPTracker() {
   const [numPCs, setNumPCs] = useState(4);
   const [session, setSession] = useState('');
   const [copied, setCopied] = useState(false);
+  const [showChangelog, setShowChangelog] = useState(false);
 
   useEffect(() => { lucide.createIcons(); });
 
@@ -364,7 +394,56 @@ function XPTracker() {
             <p className="text-base sm:text-lg">No encounters yet. Create one to start tracking XP!</p>
           </div>
         )}
+
+        <div className="text-center mt-6 pb-2">
+          <button
+            onClick={() => setShowChangelog(true)}
+            className="text-slate-600 hover:text-slate-400 text-xs transition-colors"
+          >
+            {VERSION}
+          </button>
+        </div>
       </div>
+
+      {showChangelog && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
+          onClick={() => setShowChangelog(false)}
+        >
+          <div
+            className="bg-slate-800 rounded-lg shadow-2xl w-full max-w-md max-h-[80vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center p-5 border-b border-slate-700">
+              <h2 className="text-lg font-bold text-amber-400">Changelog</h2>
+              <button
+                onClick={() => setShowChangelog(false)}
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                <i data-lucide="x" className="w-5 h-5"></i>
+              </button>
+            </div>
+            <div className="p-5 space-y-6">
+              {CHANGELOG.map((entry) => (
+                <div key={entry.version}>
+                  <div className="flex items-baseline gap-3 mb-2">
+                    <span className="text-amber-400 font-bold">{entry.version}</span>
+                    <span className="text-slate-500 text-xs">{entry.date}</span>
+                  </div>
+                  <ul className="space-y-1">
+                    {entry.changes.map((change, i) => (
+                      <li key={i} className="text-slate-300 text-sm flex gap-2">
+                        <span className="text-slate-500 select-none">–</span>
+                        {change}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
