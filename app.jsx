@@ -42,6 +42,7 @@ function XPTracker() {
   const [encounters, setEncounters] = useState([]);
   const [newEncounterName, setNewEncounterName] = useState('');
   const [numPCs, setNumPCs] = useState(4);
+  const [session, setSession] = useState('');
   const [copied, setCopied] = useState(false);
 
   useEffect(() => { lucide.createIcons(); });
@@ -132,6 +133,7 @@ function XPTracker() {
   const copyResults = () => {
     let text = `ENCOUNTER XP SUMMARY\n`;
     text += `${'='.repeat(50)}\n\n`;
+    if (session.trim()) text += `Session: ${session.trim()}\n`;
     text += `Party Size: ${numPCs} PCs\n\n`;
     
     encounters.forEach((encounter, index) => {
@@ -199,16 +201,28 @@ function XPTracker() {
           <h1 className="text-2xl sm:text-3xl font-bold text-amber-400 mb-2">Encounter XP Tracker</h1>
           <p className="text-slate-300 mb-4 text-sm sm:text-base">Track experience points from multiple combat encounters</p>
           
-          <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-slate-700 p-3 sm:p-4 rounded">
-            <label className="text-slate-300 font-semibold text-sm sm:text-base">Number of PCs:</label>
-            <input
-              type="number"
-              min="1"
-              max="20"
-              value={numPCs}
-              onChange={(e) => setNumPCs(parseInt(e.target.value) || 1)}
-              className="w-20 px-3 py-2 bg-slate-600 text-white rounded border border-slate-500 focus:border-amber-400 focus:outline-none text-base"
-            />
+          <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-slate-700 p-3 sm:p-4 rounded">
+            <div className="flex items-center gap-3">
+              <label className="text-slate-300 font-semibold text-sm sm:text-base">Number of PCs:</label>
+              <input
+                type="number"
+                min="1"
+                max="20"
+                value={numPCs}
+                onChange={(e) => setNumPCs(parseInt(e.target.value) || 1)}
+                className="w-20 px-3 py-2 bg-slate-600 text-white rounded border border-slate-500 focus:border-amber-400 focus:outline-none text-base"
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              <label className="text-slate-300 font-semibold text-sm sm:text-base">Session:</label>
+              <input
+                type="text"
+                value={session}
+                onChange={(e) => setSession(e.target.value)}
+                placeholder="e.g. Session 12"
+                className="px-3 py-2 bg-slate-600 text-white rounded border border-slate-500 focus:border-amber-400 focus:outline-none text-base"
+              />
+            </div>
           </div>
           
           <div className="flex flex-col sm:flex-row gap-2 mb-4">
